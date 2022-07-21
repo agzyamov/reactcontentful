@@ -1,9 +1,9 @@
-import {CreateClient} from 'contentful'
+import {createClient} from 'contentful'
 
 
-var client = createClient({
-    space: 'CFPAT-JXuQjg-0RMMEjPPUudTmJ0Zmas9IM_8wf6JDlAmjTaI',
+const client = createClient({
+    space: 'r6k2p1qvs4r5',
     accessToken: 'sziLZ_j9zemouifO_rPHyjiikZ2rbWJ4FBk12Xc1ZcA',
-  });
+  })
 
   export default client

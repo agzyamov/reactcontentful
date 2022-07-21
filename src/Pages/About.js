@@ -1,12 +1,44 @@
-import { Component } from "react";
-import React from "react";
+import { Component } from "react"
+import client from './Client'
+import React from "react"
+import BlackLoader from '../Images/black-loader.gif'
+import { marked } from 'marked'
+
 class About extends Component {
-    render(){
-        return(
+    constructor() {
+        super()
+        this.state = { aboutpage: [] }
+    }
+
+    componentDidMount() {
+        client.getEntries({
+            'content_type': 'about'
+        }).then((entries) => {
+            this.setState({ aboutpage: entries.items[0] }) // 200
+        })
+    }
+
+    getParsedMarkdown(aboutDescription) {
+        return {
+            __html: marked(aboutDescription, {})
+        }
+    }
+
+    render() {
+        return (
+
             <div>
                 <div className="container">
                     <h2 className="text-center">About us</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu elit est. Nulla ac blandit lorem. Nulla risus arcu, luctus sit amet porttitor tempor, tristique posuere ante. In feugiat orci sodales, accumsan justo ac, maximus mauris. Vestibulum tempor, ex vitae porttitor ornare, enim sapien posuere magna, eu ultricies justo lectus ac turpis. Curabitur accumsan ipsum id eros dapibus, nec euismod tortor elementum. Aenean tincidunt fermentum est, at congue risus laoreet vel. Mauris at pretium urna, vel eleifend dui. Praesent vitae ex auctor, euismod augue a, malesuada risus. Nam non massa eu justo consectetur ultrices vitae et risus. Cras faucibus leo massa, quis sollicitudin dolor rhoncus vitae. Cras quis orci venenatis, gravida eros eu, malesuada lacus. Cras vehicula tortor sapien, sed convallis mi imperdiet ac. Etiam porta sodales suscipit. Maecenas nisl tellus, mollis vel massa ut, consequat consequat turpis. Vivamus tincidunt diam at arcu rutrum, sit amet euismod lorem ultricies.</p>
+
+                    {this.state.aboutpage.length === 0 ?
+                        <div align="center" className="pt-5"><img src={BlackLoader} alt="Loader" /></div>
+                        :
+                        //<p>{this.state.aboutpage.fields.aboutDescription}</p>
+                        <div dangerouslySetInnerHTML={this.getParsedMarkdown(this.state.aboutpage.fields.aboutDescription)}>
+
+                        </div>
+                    }
                 </div>
             </div>
         );

@@ -1,10 +1,26 @@
-import React, {Component} from 'react'
-import Service1 from '../Images/services/services1.png'
-import Service2 from '../Images/services/services2.png'
- 
+import React, { Component } from 'react'
+import client from './Client'
+import loader from '../Images/loader.gif'
+
 class Services extends Component {
+    constructor() {
+        super()
+        this.state = { servicepage: [] }
+
+    }
+
+    componentDidMount() {
+        client.getEntries({
+            'content_type': 'services'
+        }).then((entries) => {
+            this.setState({ servicepage: entries.items })
+            console.log(this.state)
+        })
+
+    }
     render() {
-        return(
+
+        return (
             <div>
                 <section id="services" className="p-4">
                     <div className="container">
@@ -12,75 +28,43 @@ class Services extends Component {
                             <h2>Our Services</h2>
                             <p className="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur porta in ipsum non facilisis.</p>
                         </div>
-                        <div className="row">
-                            <div className="col-md-4">
-                                <div className="media service-wrap">
-                                    <div>
-                                        <img className="pr-3" src={Service1} alt="" />
-                                    </div>
-                                    <div className="media-body">
-                                        <h3 className="media-heading">Digital Marketing</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                </div>
+
+                        {this.state.servicepage.length === 0 ?
+                            <div align="center"><img src={loader} alt="loader" /></div>
+
+                            :
+
+
+
+                            <div className="row">
+
+                                {this.state.servicepagemap((item, index) => {
+
+                                    return (
+
+                                        <div key={index} className="col-md-4">
+                                            <div className="media service-wrap">
+                                                <div>
+                                                    <img className="pr-3" src={item.fields.serviceIcon.fields.file.url} alt="" />
+                                                </div>
+                                                <div className="media-body">
+                                                    <h3 className="media-heading">{item.fields.serviceTitle}</h3>
+                                                    <p>{item.fields.serviceDescription}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+
+
+                                )}
                             </div>
-                            <div className="col-md-4">
-                                <div className="media service-wrap">
-                                    <div>
-                                        <img className="pr-3" src={Service2} alt="" />
-                                    </div>
-                                    <div className="media-body">
-                                        <h3 className="media-heading">Email Marketing</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-4">
-                                <div className="media service-wrap">
-                                    <div>
-                                        <img className="pr-3" src={Service1} alt="" />
-                                    </div>
-                                    <div className="media-body">
-                                        <h3 className="media-heading">Digital Marketing</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                </div>
-                            </div>
- 
-                            <div className="col-md-4">
-                                <div className="media service-wrap">
-                                    <div>
-                                        <img className="pr-3" src={Service1} alt="" />
-                                    </div>
-                                    <div className="media-body">
-                                        <h3 className="media-heading">Digital Marketing</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-4">
-                                <div className="media service-wrap">
-                                    <div>
-                                        <img className="pr-3" src={Service1} alt="" />
-                                    </div>
-                                    <div className="media-body">
-                                        <h3 className="media-heading">Digital Marketing</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-4">
-                                <div className="media service-wrap">
-                                    <div>
-                                        <img className="pr-3" src={Service1} alt="" />
-                                    </div>
-                                    <div className="media-body">
-                                        <h3 className="media-heading">Digital Marketing</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+
+
+
+                        }
+
                     </div>
                 </section>
             </div>
