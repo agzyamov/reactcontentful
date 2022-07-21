@@ -28,41 +28,41 @@ class Services extends Component {
                             <h2>Our Services</h2>
                             <p className="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur porta in ipsum non facilisis.</p>
                         </div>
-
+                        
                         {this.state.servicepage.length === 0 ?
                             <div align="center"><img src={loader} alt="loader" /></div>
 
                             :
-
-
+                           
+                            
 
                             <div className="row">
 
-                                {this.state.servicepagemap((item, index) => {
+                            {this.state.servicepage.map((item, index) => {
 
-                                    return (
+                                return (
 
-                                        <div key={index} className="col-md-4">
-                                            <div className="media service-wrap">
-                                                <div>
-                                                    <img className="pr-3" src={item.fields.serviceIcon.fields.file.url} alt="" />
-                                                </div>
-                                                <div className="media-body">
-                                                    <h3 className="media-heading">{item.fields.serviceTitle}</h3>
-                                                    <p>{item.fields.serviceDescription}</p>
-                                                </div>
+                                    <div key={index} className="col-md-4">
+                                        <div className="media service-wrap">
+                                            <div>
+                                                <img className="pr-3" src={item.fields.serviceIcon.fields.file.url} alt="" />
+                                            </div>
+                                            <div className="media-body">
+                                                <h3 className="media-heading">{item.fields.serviceTitle}</h3>
+                                                <p>{item.fields.serviceDescription}</p>
                                             </div>
                                         </div>
-                                    )
-                                }
+                                    </div>
+                                )
+                            }
 
 
-                                )}
-                            </div>
+                            )}
+                        </div>
 
 
 
-
+                            
                         }
 
                     </div>
