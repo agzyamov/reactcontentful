@@ -1,10 +1,23 @@
-import React, {Component} from 'react'
-import blog1 from '../Images/blog/blog1.jpeg'
-import blog2 from '../Images/blog/blog2.jpeg'
- 
+import React, { Component } from 'react'
+import client from '../Pages/Client'
+import BlackLoader from '../Images/black-loader.gif'
+import { Link } from 'react-router-dom'
+
+
 class Blogs extends Component {
+    constructor() {
+        super()
+        this.state = { blogpage: [] }
+    }
+    componentDidMount() {
+        client.getEntries({
+            content_type: 'blogs'
+        }).then((entries) => {
+            this.setState({ blogpage: entries.items })
+        })
+    }
     render() {
-        return(
+        return (
             <div>
                 <section className="pt-4">
                     <div className="container">
@@ -12,20 +25,27 @@ class Blogs extends Component {
                             <h2> Blogs </h2>
                             <p className="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur porta in ipsum non facilisis.</p>
                         </div>
-                        <div className="row">
-                            <div className="col-md-6 blog-content">
-                                <img src={blog1} className="img-blog img-fluid" alt="" />
-                                <h3><a href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur porta in ipsum non facilisis. Fusce pretium condimentum enim, non rhoncus nunc finibus eu. Morbi sed purus in diam commodo sagittis. Suspendisse feugiat, tellus vel efficitur viverra, turpis lorem malesuada lorem, eu posuere dui orci tempus libero. Phasellus mollis posuere ante a facilisis. Nulla blandit elit ac nunc feugiat mollis. Nulla congue purus non felis eleifend, id rhoncus lorem rutrum. Pellentesque pulvinar dignissim diam non dapibus. Nulla ultricies mi sed ultricies elementum.</p>
-                                <button className="btn btn-primary">Read more...</button>
-                            </div>
-                            <div className="col-md-6 blog-content">
-                                <img src={blog2} className="img-blog img-fluid" alt="" />
-                                <h3><a href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur porta in ipsum non facilisis. Fusce pretium condimentum enim, non rhoncus nunc finibus eu. Morbi sed purus in diam commodo sagittis. Suspendisse feugiat, tellus vel efficitur viverra, turpis lorem malesuada lorem, eu posuere dui orci tempus libero. Phasellus mollis posuere ante a facilisis. Nulla blandit elit ac nunc feugiat mollis. Nulla congue purus non felis eleifend, id rhoncus lorem rutrum. Pellentesque pulvinar dignissim diam non dapibus. Nulla ultricies mi sed ultricies elementum.</p>
-                                <button className="btn btn-primary">Read more...</button>
-                            </div>
+                        {this.state.blogpage.length === 0 ?
+
+                            <div align="center" className="pt-5"> <img src={BlackLoader} alt="Loader" /> </div>
+                            :
+                            <div className="row">
+                            {this.state.blogpage.map((item, index) => {
+                                return (
+                                    <div key={index} className="col-md-6 blog-content">
+                                        <img src={item.fields.blogThumbnail.fields.file.url} className="img-blog img-fluid" alt="" />
+                                        <h3><Link to={`../Blogs/${item.fields.slug}`}>{item.fields.blogTitle}</Link></h3>
+                                        <p>{item.fields.blogDescription}</p>
+                                        <button className="btn btn-primary"><Link to={`../Blogs/${item.fields.slug}`}>Read more...</Link></button>
+                                    </div>
+                                )
+                            }
+
+                            )}
                         </div>
+
+                        }
+                        
                     </div>
                 </section>
             </div>
